@@ -1,4 +1,5 @@
 Initial_LFP;
+warning off
 
 ROOT.Fig = [ROOT.Save '\Plots\PSD'];
 SessionList = readtable([ROOT.Info '\SessionList.xlsx'],'ReadRowNames',false);
@@ -32,10 +33,10 @@ for sid=1:size(SessionList,1)
         cd(ID)
 
         for thisTTID=1:24
-            f = figure('position',[-1630 150 1200 760]);
+            fig = figure('position',[-1630 150 1200 760]);
             [pxx, f] = DrawPSD_JM(EEG.(['TT' num2str(thisTTID)]).Raw, 'k',rang);
             title([ID '-TT' num2str(thisTTID) '(' cell2mat(Recording_region_TT.(['TT' num2str(thisTTID)])) ')'])
-             saveas(f,[ROOT.Fig '\' ID '\TT' num2str(thisTTID) '.png'])
+             saveas(fig,[ROOT.Fig '\' ID '\TT' num2str(thisTTID) '.png'])
              close all
              
              theta = [knnsearch(f,Params.Theta(1)) knnsearch(f,Params.Theta(2))];
@@ -46,10 +47,10 @@ for sid=1:size(SessionList,1)
              gammaPower = nanmean(10*log10(pxx(gamma(1):gamma(2))));
              ripplePower = nanmean(10*log10(pxx(ripple(1):ripple(2))));
              
+             PowerTable.region{thisTTID} = cell2mat(Recording_region_TT.(['TT' num2str(thisTTID)]));
              PowerTable.theta(thisTTID) = thetaPower;
              PowerTable.gamma(thisTTID) = gammaPower;
-             PowerTable.ripple(thisTTID) = ripplePower;
-             
+             PowerTable.ripple(thisTTID) = ripplePower; 
         end
         
         writematrix(PowerTable,[ROOT.Save '\Tables\PSD\' ID '.csv'],'WriteMode', 'overwrite')
