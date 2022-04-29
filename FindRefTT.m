@@ -40,12 +40,14 @@ for sid=1:size(SessionList,1)
                     thisRegion  = Regions{reg};
                     thisPowTable = PowerTable(strcmp(PowerTable.region,thisRegion),:);
                     
-                    m = max(thisPowTable.(thisOsc));
+                    m = maxk(thisPowTable.(thisOsc),2);
                     
                     if isempty(m)
-                        thisRefTT.(thisRegion) = nan;
+                        thisRefTT.([thisRegion '_1'])= nan;
+                        thisRefTT.([thisRegion '_2'])= nan;
                     else
-                        thisRefTT.(thisRegion) =find( m== PowerTable.(thisOsc));
+                        thisRefTT.([thisRegion '_1']) =find( m(1)== PowerTable.(thisOsc));
+                        thisRefTT.([thisRegion '_2']) =find( m(2)== PowerTable.(thisOsc));
                     end
                 end
                 
