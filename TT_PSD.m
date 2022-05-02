@@ -19,7 +19,7 @@ for sid=1:size(SessionList,1)
             thisSID = jmnum2str(SessionList.session(sid),2);
             
             ID = [jmnum2str(SessionList.rat(sid),3) '-' jmnum2str(SessionList.session(sid),2)];
-            if ~strcmp(thisRID, '511'), continue; end
+
             Recording_region_TT = Recording_region({ID},:);
             
             TargetTT = [1:24]';
@@ -72,7 +72,10 @@ for sid=1:size(SessionList,1)
                     PowerTable.gamma(thisTTID) = gammaPower;
                     PowerTable.ripple(thisTTID) = ripplePower;
                 catch
-                    disp([ID '-TT' num2str(thisTTID) 'doesnt exist'])
+                    PowerTable.theta(thisTTID) = nan;
+                    PowerTable.gamma(thisTTID) = nan;
+                    PowerTable.ripple(thisTTID) = nan;
+                    disp([ID '-TT' num2str(thisTTID) ' doesnt exist'])
                 end
             end
             
