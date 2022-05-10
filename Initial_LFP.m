@@ -8,10 +8,11 @@ ROOT.Raw.Mother = 'F:\EPhysRawData\RawData';
 ROOT.Raw.Map = [ROOT.Raw.Mother '\map files (outbound) epoch_filtered_smoothed'];
 ROOT.Raw.Var = [ROOT.Raw.Mother '\variables for display'];
 ROOT.Program = [ROOT.Mother '\Analysis Program'];
+ROOT.Modules = ['D:\Modules'];
 ROOT.Info = [ROOT.Mother '\Information Sheet'];
 ROOT.Save = [ROOT.Mother '\Processed Data'];
 addpath(genpath(ROOT.Program))
-
+addpath(genpath(ROOT.Modules))
 %% set initial parameters
 % cell criterions
 Params.crit.frlow=1;
@@ -40,11 +41,10 @@ Params.freqLimit = 450;
 Params.freqBin = ceil(Params.freqLimit/Params.Fs * Params.freqN);
 
 Params.noise = [350 450]; %noise Range
-Params.Ripple = [150 250]; %SWR range
-Params.Theta = [4 12];
-Params.Gamma = [70 115];
+Params.ripple = [150 250]; %SWR range
+Params.theta = [4 12];
+Params.gamma = [70 115];
 Params.low = 20;
-Params.cRange = Params.Ripple;
 
 
 cellfind = @(string)(@(cell_contents)(strcmp(string,cell_contents)));
