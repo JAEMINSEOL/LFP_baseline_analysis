@@ -19,7 +19,13 @@ function [occMat spkMat rawMat skaggsrateMat] = abmFiringRateMap(tmazeMat, finAl
 %Originally from VB codes which Inah Lee has.
 %Translate VB codes to matlab was done by [Jangjin Kim, July-13-2008]
 %Verification was done
+%reviced by SB 4/29/2013 : add 'to avoid error'
 
+%to avoid error
+tmazeMatSize = size(tmazeMat);
+if tmazeMatSize(1) == 0 && tmazeMatSize(2) == 0
+    tmazeMat = zeros(0,3);
+end
 
 %pINDEX
 pXCOORD = 2;																						%x coordinates [from Neuralynx]
@@ -33,16 +39,16 @@ skaggsrateMat = zeros(imROW, imCOL);
 
 for rowRUN = 1:1:imROW
 	for colRUN = 1:1:imCOL
-		numspk =  size(tmazeMat(tmazeMat(:, pXCOORD) ./ thisSCALE >= (colRUN - 1) & tmazeMat(:, pXCOORD) ./ thisSCALE < colRUN & ... 
-							tmazeMat(:, pYCOORD) ./ thisSCALE >= (rowRUN - 1) & tmazeMat(:, pYCOORD) ./ thisSCALE < rowRUN, :));
+		numspk =  size(tmazeMat(tmazeMat(:, pXCOORD) ./ thisSCALE > (colRUN - 1) & tmazeMat(:, pXCOORD) ./ thisSCALE <= colRUN & ... 
+							tmazeMat(:, pYCOORD) ./ thisSCALE > (rowRUN - 1) & tmazeMat(:, pYCOORD) ./ thisSCALE <= rowRUN, :));
 		if numspk(1, 1) == 0
 			spkMat(rowRUN, colRUN) = 0;
 		else
 			spkMat(rowRUN, colRUN) = numspk(1, 1);
 		end	%numspk(1, 1) == 0
 
-		numocc = size(finAlzPosMat(finAlzPosMat(:, pXCOORD) ./ thisSCALE >= (colRUN - 1) & finAlzPosMat(:, pXCOORD) ./ thisSCALE < colRUN & ... 
-							finAlzPosMat(:, pYCOORD) ./ thisSCALE >= (rowRUN - 1) & finAlzPosMat(:, pYCOORD) ./ thisSCALE < rowRUN, :));
+		numocc = size(finAlzPosMat(finAlzPosMat(:, pXCOORD) ./ thisSCALE > (colRUN - 1) & finAlzPosMat(:, pXCOORD) ./ thisSCALE <= colRUN & ... 
+							finAlzPosMat(:, pYCOORD) ./ thisSCALE > (rowRUN - 1) & finAlzPosMat(:, pYCOORD) ./ thisSCALE <= rowRUN, :));
 		if numocc(1, 1) == 0
 			occMat(rowRUN, colRUN) = nan;
 		else
@@ -51,14 +57,14 @@ for rowRUN = 1:1:imROW
 	end	%colRUN = 1:1:imCOL
 end	%rowRUN = 1:1:imROW
 
-rawMat = spkMat ./ (occMat .* samplingRate);
+rawMat = spkMat ./ occMat .* samplingRate;
 
 if sum(sum(spkMat)) > 0
 	nanIND = find(isnan(occMat));
 	occMat(isnan(occMat)) = 0;
-	i = -20:20; j = -20:19;
-	Ti = zeros(28, 400);
-	Tj = zeros(28, 400);
+	i = -60:60; j = -60:59;
+	Ti = zeros(42, 400);
+	Tj = zeros(42, 400);
 
 	for colRUN = 1:1:imCOL
 		for rowRUN = 1:1:imROW
@@ -66,8 +72,8 @@ if sum(sum(spkMat)) > 0
 				%Equivalent to BuildRTable
 				Nr = zeros(1, 400);
 
-				for ii = 1:1:41
-					for jj = 1:1:40
+				for ii = 1:1:121
+					for jj = 1:1:120
 						%r(1, (ii - 1) * 41 + jj) = i(1, ii)^2 + j(1, jj)^2; 
 						%r(ii, jj) = i(1, ii)^2 + j(1, jj)^2; 
 						r = i(1, ii)^2 + j(1, jj)^2 + 1;
@@ -98,7 +104,7 @@ if sum(sum(spkMat)) > 0
 								for h = 1:1:Nr(r + 1)
 									ii = (colRUN2 - 1) + Ti(h, r + 1);
 									jj = (rowRUN2 - 1) + Tj(h, r + 1);	%-1 to compensate VB code
-									if (ii >= 0 & ii < 64) & (jj >= 0 & jj < 48)
+									if (ii >= 0 & ii < 120) & (jj >= 0 & jj < 48)
 										occCount = occCount + occMat(jj + 1, ii + 1);
 										spkCount = spkCount + spkMat(jj + 1, ii + 1);
 									end	%(ii >= 0 & ii < 64) & (jj >= 0 & jj < 48)
@@ -129,3 +135,4 @@ if sum(sum(spkMat)) > 0
 else
 	skaggsrateMat = rawMat;
 end	%sum(sum(spkMat)) > 0
+;
