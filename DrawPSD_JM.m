@@ -30,6 +30,7 @@ nfft = Fn*2*3;
 
 plot(f,smoothdata(10*log10(pxx),'Movmean',10),c,'linewidth',2) % power2db = 10log10
 
+
 % ylim([1 100000])
 set(gca,'FontSize',15,'fontweight','b')
 xlim(range)
