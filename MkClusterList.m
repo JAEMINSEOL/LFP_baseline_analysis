@@ -41,7 +41,7 @@ for sid = 1:size(Session_List,1)
     end
 end
 
-writetable(Cluster_list,[ROOT.Info '\ClusterList.xlsx'])
+writetable(Cluster_list,[ROOT.Info '\ClusterList.xlsx'],'writemode','overwrite')
 % Cluster_list_CA1 = Cluster_list(strncmp(TargRegion,Cluster_list.region,3),:);
 % writetable(Cluster_list_CA1,[ROOT.Info '\ClusterList_SWR_' TargRegion '.xlsx'])
 

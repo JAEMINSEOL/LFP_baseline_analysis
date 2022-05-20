@@ -8,7 +8,8 @@ mod = 'winC';
 Cluster_List = readtable([ROOT.Info '\ClusterList.xlsx']);
 
 for cellRUN = 1 : size(Cluster_List,1)
-    if strcmp(Cluster_List.experimenter{cellRUN},'JS') && strcmp(Cluster_List.session_type{cellRUN},'fog') 
+    if strcmp(Cluster_List.experimenter{cellRUN},'JS') && strcmp(Cluster_List.session_type{cellRUN},'fog') &&...
+            Cluster_List.rat(cellRUN)==511
         try
             thisCLUSTER = Cluster_List.ID{cellRUN};
             find_hypen = find(thisCLUSTER=='-');
@@ -27,9 +28,11 @@ for cellRUN = 1 : size(Cluster_List,1)
                     TargetTT = RefTT.(['JS_1'])(strcmp(RefTT.ID,[thisRID '-' thisSID]));
                 else
                     TargetTT = RefTT.(['JS_2'])(strcmp(RefTT.ID,[thisRID '-' thisSID]));
+                    continue;
                 end
             else
                 TargetTT = RefTT.([thisRegion2 '_1'])(strcmp(RefTT.ID,[thisRID '-' thisSID]));
+                continue;
             end
             %% for parsed pos.
             if strcmp(mod,'pars')

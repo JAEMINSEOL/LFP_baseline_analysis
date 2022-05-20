@@ -15,7 +15,7 @@ figure;
 hold on
 for sid=1:size(SessionList,1)
 
-    if ismember(SessionList.experimenter(sid),Experimenter) & strcmp(SessionList.type(sid),'fog')
+    if ismember(SessionList.experimenter(sid),Experimenter)  && strncmp(SessionList.type{sid},'fog',3)
 
             thisRID = jmnum2str(SessionList.rat(sid),3);
             thisSID = jmnum2str(SessionList.session(sid),2);
@@ -34,7 +34,7 @@ for sid=1:size(SessionList,1)
     end
 end
 
-xlim([0 50])
+xlim([10 50])
 ylim([0 25])
 xlabel('Theta Power (Db/Hz)')
 ylabel('Gamma Power (Db/Hz)')

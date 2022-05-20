@@ -122,9 +122,9 @@ else
     
     phase_a = phase_a+180;
     
-    plot(PHASE_mat(:,4)/500*3, phase_a, 'r.')
+    plot(PHASE_mat(:,4)/500*3, phase_a, 'k.')
     hold on
-    plot(PHASE_mat(:,4)/500*3, phase_a +360, 'r.')
+    plot(PHASE_mat(:,4)/500*3, phase_a +360, 'k.')
     ylim([0 720])
     xlim([0 3])
     
@@ -159,7 +159,7 @@ else
     
     hax =  subplot(4,2,4);
     
-    bar([(phasebins*180/pi)' ((phasebins*180/pi)+360)'],[Stdphasedistros' Stdphasedistros'],'r')
+    bar([(phasebins*180/pi)' ((phasebins*180/pi)+360)'],[Stdphasedistros' Stdphasedistros'],'k')
     xlim([0 720])
     set(hax,'XTick',[0 90 180 270 360 450 540 630 720])
     hold on;
@@ -207,9 +207,9 @@ subplot(4,2,7)
 phase_a = PHASE_mat(:,1);
 phase_a = phase_a+180;
 
-plot(PHASE_mat(:,4)/500*3, phase_a, 'r.')
+plot(PHASE_mat(:,4)/500*3, phase_a, 'k.')
 hold on
-plot(PHASE_mat(:,4)/500*3, phase_a +360, 'r.')
+plot(PHASE_mat(:,4)/500*3, phase_a +360, 'k.')
 ylim([0 720])
 xlim([0 3])
 
@@ -243,7 +243,7 @@ text(0.9,-0.35,['MRL = ' jjnum2str( amb0phasestats.r,2)],'Units','normalized', '
 
 hax =  subplot(4,2,8);
 
-bar([(phasebins*180/pi)' ((phasebins*180/pi)+360)'],[amb0phasedistros' amb0phasedistros'],'r')
+bar([(phasebins*180/pi)' ((phasebins*180/pi)+360)'],[amb0phasedistros' amb0phasedistros'],'k')
 xlim([0 720])
 set(hax,'XTick',[0 90 180 270 360 450 540 630 720])
 hold on;
