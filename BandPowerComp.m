@@ -12,7 +12,7 @@ PowStruct=struct;
 
 for sid=1:size(SessionList,1)
     PowerTable = table;
-    if ismember(SessionList.experimenter(sid),Experimenter)   & strncmp(SessionList.type{sid},'std2fc',3)
+    if ismember(SessionList.experimenter(sid),Experimenter)   & strncmp(SessionList.type{sid},'fog',3)
         try
         thisRID = jmnum2str(SessionList.rat(sid),3);
         thisSID = jmnum2str(SessionList.session(sid),2);
@@ -48,7 +48,7 @@ for sid=1:size(SessionList,1)
 end
 %%
 figure('position',[-790 220 360 620])
-thisOsc = 'gamma';
+thisOsc = 'theta';
 dat = PowStruct.(thisOsc);
 thisDat=[]; thisErr=[];
 p_t=[];

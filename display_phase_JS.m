@@ -120,11 +120,12 @@ else
     
     phase_a = PHASE_mat(:,1);
     
-    phase_a = phase_a+180;
+    phase_a = phase_a+360;
     
     plot(PHASE_mat(:,4)/500*3, phase_a, 'k.')
     hold on
     plot(PHASE_mat(:,4)/500*3, phase_a +360, 'k.')
+    plot(PHASE_mat(:,4)/500*3, phase_a -360, 'k.')
     ylim([0 720])
     xlim([0 3])
     
@@ -137,7 +138,7 @@ else
     r = circ_plot(deg2rad(phase_a),'hist',[],20,true,true,'linewidth',2,'color','r');
     
     
-    [Stdphasedistros,phasebins,ps]=CircularDistribution(circ_ang2rad(phase_a),'nBins',20);
+    [Stdphasedistros,phasebins,ps]=CircularDistribution(circ_ang2rad(phase_a-180),'nBins',20);
     
     Stdphasestats.m = mod(ps.m,2*pi);
     Stdphasestats.r = ps.r;
@@ -159,7 +160,7 @@ else
     
     hax =  subplot(4,2,4);
     
-    bar([(phasebins*180/pi)' ((phasebins*180/pi)+360)'],[Stdphasedistros' Stdphasedistros'],'k')
+    bar([((phasebins*180/pi)-180)' ((phasebins*180/pi)+180)' ((phasebins*180/pi)+540)'],[Stdphasedistros' Stdphasedistros' Stdphasedistros'],'k')
     xlim([0 720])
     set(hax,'XTick',[0 90 180 270 360 450 540 630 720])
     hold on;
@@ -205,11 +206,12 @@ text(0,1.1,['post-fog'],'Units','normalized', 'fontsize',9, 'FontWeight','bold')
 subplot(4,2,7)
 
 phase_a = PHASE_mat(:,1);
-phase_a = phase_a+180;
+phase_a = phase_a+360;
 
 plot(PHASE_mat(:,4)/500*3, phase_a, 'k.')
 hold on
 plot(PHASE_mat(:,4)/500*3, phase_a +360, 'k.')
+plot(PHASE_mat(:,4)/500*3, phase_a -360, 'k.')
 ylim([0 720])
 xlim([0 3])
 
@@ -223,7 +225,7 @@ hax = subplot(4,2,6);
 r = circ_plot(deg2rad(phase_a),'hist',[],20,true,true,'linewidth',2,'color','r');
 
 
-[amb0phasedistros,phasebins,ps]=CircularDistribution(circ_ang2rad(phase_a),'nBins',20);
+[amb0phasedistros,phasebins,ps]=CircularDistribution(circ_ang2rad(phase_a-180),'nBins',20);
 
 amb0phasestats.m = mod(ps.m,2*pi);
 amb0phasestats.r = ps.r;
@@ -243,7 +245,7 @@ text(0.9,-0.35,['MRL = ' jjnum2str( amb0phasestats.r,2)],'Units','normalized', '
 
 hax =  subplot(4,2,8);
 
-bar([(phasebins*180/pi)' ((phasebins*180/pi)+360)'],[amb0phasedistros' amb0phasedistros'],'k')
+bar([((phasebins*180/pi)-180)' ((phasebins*180/pi)+180)' ((phasebins*180/pi)+540)'],[amb0phasedistros' amb0phasedistros'  amb0phasedistros'],'k')
 xlim([0 720])
 set(hax,'XTick',[0 90 180 270 360 450 540 630 720])
 hold on;
